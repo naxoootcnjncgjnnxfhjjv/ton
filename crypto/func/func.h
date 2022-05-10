@@ -35,6 +35,7 @@ namespace funC {
 
 extern int verbosity;
 extern bool op_rewrite_comments;
+extern std::string generated_from;
 
 constexpr int optimize_depth = 20;
 
@@ -110,7 +111,8 @@ enum Keyword {
   _Infixl,
   _Infixr,
   _Const,
-  _PragmaHashtag
+  _PragmaHashtag,
+  _IncludeHashtag
 };
 
 void define_keywords();
@@ -828,8 +830,10 @@ extern std::vector<SymDef*> glob_func, glob_vars;
 
 // defined in parse-func.cpp
 bool parse_source(std::istream* is, const src::FileDescr* fdescr);
-bool parse_source_file(const char* filename);
+bool parse_source_file(const char* filename, src::Lexem lex = {});
 bool parse_source_stdin();
+
+extern std::stack<src::SrcLocation> inclusion_locations;
 
 /*
  * 
